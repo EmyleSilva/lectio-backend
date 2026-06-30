@@ -1,0 +1,6 @@
+# Criar uma rede
+docker network create lectio-network
+
+# PostgreSQL e PgAdmin4
+docker run --name lectiodb -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres -e POSTGRES_DB=lectio -p 5432:5432 --network lectio-network postgres:16.3
+docker run --name pgadmin4 -p 15432:80 -e PGADMIN_DEFAULT_EMAIL=admin@admin.com -e PGADMIN_DEFAULT_PASSWORD=admin --network lectio-network dpage/pgadmin4:8.9
