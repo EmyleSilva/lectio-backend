@@ -1,13 +1,12 @@
 package uesc.web.lectio.dto;
 
 import jakarta.validation.constraints.NotNull;
-import org.springframework.cglib.core.Local;
 import uesc.web.lectio.model.enums.StatusLeitura;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public class EstanteLivro {
+public class EstanteLivroDTO {
 
     // Usado para ADICIONAR um livro a uma estante. estanteId vem do path.
     public record Request(

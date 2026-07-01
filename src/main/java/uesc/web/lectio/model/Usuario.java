@@ -30,6 +30,9 @@ public class Usuario {
     @Column(name = "foto_perfil_url", length = 255)
     private String fotoPerfilUrl;
 
+    @Column(columnDefinition = "TEXT")
+    private String bio;
+
     @Column(name = "data_cadastro", nullable = false, updatable = false)
     private LocalDateTime dataCadastro;
 
