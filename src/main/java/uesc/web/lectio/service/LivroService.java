@@ -33,8 +33,11 @@ public class LivroService {
     @Transactional
     public LivroDTO.Response criar(LivroDTO.Request request) {
         Livro livro = new Livro();
+        System.out.println("Passa antes?");
         mapearParaCamposSimples(livro, request);
+        System.out.println("Chega depois de campos simples?");
         aplicarRelacionamentos(livro, request);
+        System.out.println("aplicou relacionamentos");
         return toResponse(livroRepository.save(livro));
     }
 
@@ -87,6 +90,13 @@ public class LivroService {
         }else {
             livro.setEditora(null);
         }
+
+        System.out.println("========================================");
+        System.out.println("AUTORES ID: ");
+        for (Long autorId : request.autorIds()) {
+            System.out.println("ID: " + autorId);
+        }
+        System.out.println("========================================");
 
         Set<Autor> autores = new HashSet<>();
         if (request.autorIds() != null) {
