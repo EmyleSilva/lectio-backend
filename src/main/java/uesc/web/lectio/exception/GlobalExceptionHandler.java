@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestControllerAdvice
-public class GlobalExceptionHandler extends RuntimeException {
+public class GlobalExceptionHandler{
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<Map<String, Object>> handleNotFound(ResourceNotFoundException ex){
@@ -26,6 +26,11 @@ public class GlobalExceptionHandler extends RuntimeException {
         Map<String, Object> corpo = corpoErro(HttpStatus.BAD_REQUEST, "Erro de Validação");
         corpo.put("campos", campos);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(corpo);
+    }
+
+    @ExceptionHandler(AuthenticationFailedException.class)
+    public ResponseEntity<Map<String, Object>> handleAuthFailed(AuthenticationFailedException ex){
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(corpoErro(HttpStatus.UNAUTHORIZED, ex.getMessage()));
     }
 
     private Map<String, Object> corpoErro(HttpStatus status, String mensagem) {

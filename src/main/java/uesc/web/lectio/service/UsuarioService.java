@@ -3,6 +3,8 @@ package uesc.web.lectio.service;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import uesc.web.lectio.dto.AuthDTO;
+import uesc.web.lectio.exception.AuthenticationFailedException;
 import org.springframework.transaction.annotation.Transactional;
 import uesc.web.lectio.dto.UsuarioDTO;
 import uesc.web.lectio.exception.ResourceNotFoundException;
@@ -53,6 +55,22 @@ public class UsuarioService {
     public void deletar(Long id) {
         Usuario usuario = buscarEntidade(id);
         usuarioRepository.delete(usuario);
+    }
+
+    
+    @Transactional(readOnly = true)
+    public AuthDTO.LoginResponse autenticar(AuthDTO.LoginRequest request) {
+        // 1. Busca pelo email
+        Usuario usuario = usuarioRepository.findByEmail(request.email())
+                .orElseThrow(() -> new AuthenticationFailedException("E-mail ou senha inválidos"));
+        
+        // 2. Compara a senha digitada com o Hash do banco
+        if (!passwordEncoder.matches(request.senha(), usuario.getSenhaHash())) {
+            throw new AuthenticationFailedException("E-mail ou senha inválidos");
+        }
+        
+        // 3. Devolve a resposta limpa e segura
+        return new AuthDTO.LoginResponse(usuario.getId(), usuario.getNome(), usuario.getEmail());
     }
 
     protected Usuario buscarEntidade(Long id) {
