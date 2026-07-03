@@ -1,0 +1,60 @@
+services:
+
+  lectiodb:
+    image: postgres:16.3
+    container_name: lectiodb
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: lectio
+    ports:
+      - "5432:5432"
+    volumes:
+      - lectio_pgdata:/var/lib/postgresql/data
+      # Rodam automaticamente, em ordem alfabética, na PRIMEIRA vez que o volume é criado
+      - ./db/script_01_30062026.sql:/docker-entrypoint-initdb.d/01-init.sql
+      - ./db/seed_02_livros.sql:/docker-entrypoint-initdb.d/02-seed.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d lectio"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - lectio-network
+
+  pgadmin4:
+    image: dpage/pgadmin4:8.9
+    container_name: pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "15432:80"
+    depends_on:
+      - lectiodb
+    networks:
+      - lectio-network
+
+  lectio-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: lectio-app
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://lectiodb:5432/lectio
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    ports:
+      - "8080:8080"
+    depends_on:
+      lectiodb:
+        condition: service_healthy
+    networks:
+      - lectio-network
+
+networks:
+  lectio-network:
+    driver: bridge
+
+volumes:
+  lectio_pgdata:
