@@ -8,9 +8,9 @@
 
 -- ---------- USUÁRIOS ----------
 INSERT INTO usuarios (nome, email, senha_hash, foto_perfil_url, bio) VALUES
-('Mariana Silva', 'mariana@lectio.com', '$2b$12$aTqID/10VVpRAZCKHfLB7udLpqLEkUCbQVYMIGTTEPom4g0WfIQj.', NULL, 'Apaixonada por fantasia e ficção literária.'),
-('Lucas Almeida', 'lucas@lectio.com', '$2b$12$tgKeGpAsfib6XJ7XeG8qL.oJNO5g/YBgF.DeEoKyha1Cb9aqvKYaW', NULL, 'Lendo um pouco de tudo.'),
-('Ana Souza', 'ana@lectio.com', '$2b$12$ho9NC.h7ZtUdrCOQjwrETOSpOG0ABovpFb3pLqhiYHmcrLGke/Su6', NULL, 'Clássicos brasileiros são minha praia.');
+('Mariana Silva', 'mariana@lectio.com', '$2a$10$nWLeGqKduoY7141Ln6.VreMo/HCn5jgnDCmCEn.i9A5bmSTV3aOei', NULL, 'Apaixonada por fantasia e ficção literária.'),
+('Lucas Almeida', 'lucas@lectio.com', '$2a$10$nWLeGqKduoY7141Ln6.VreMo/HCn5jgnDCmCEn.i9A5bmSTV3aOei', NULL, 'Lendo um pouco de tudo.'),
+('Ana Souza', 'ana@lectio.com', '$2a$10$nWLeGqKduoY7141Ln6.VreMo/HCn5jgnDCmCEn.i9A5bmSTV3aOei', NULL, 'Clássicos brasileiros são minha praia.');
 
 -- ---------- EDITORAS ----------
 INSERT INTO editoras (nome) VALUES
